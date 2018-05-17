@@ -1,0 +1,174 @@
+<style type="text/css">
+    table tr td {
+        padding: 10px;
+    }
+
+    input {
+        width: 300px;
+    }
+</style>
+
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="margin-top:10px;" (click)="onCancel()">Add Details</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" style="width:560px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="onResetField()">&times;</button>
+                <h4 class="modal-title">Enter Details</h4>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>Address</td>
+                        <td><input type="text" placeholder="Enter Address" class="form-control" [(ngModel)]="Model.address" /></td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td><input type="number" placeholder="Enter Price" class="form-control" [(ngModel)]="Model.price" /></td>
+                    </tr>
+                    <tr>
+                        <td>Select Image</td>
+                        <td>
+                            <input type="text" class="form-control" [(ngModel)]="Model.fileName" #fileControl placeholder="Select Image" disabled>
+                            <input type="file" #imageControl accept="image/*" (change)="fileChange($event.target.files)" style="display:none;" />
+                        </td>
+                        <td><button type="button" class="btn active" (click)="onOpenFile()">Select File</button></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <img src={{filePath}} style="width:290px; height:200px;" class="img-thumbnail">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="onSave()" #SaveControl style="width: 100px; margin-left: 20px;">{{buttonName}}</button>
+                <button type="button" class="btn btn-default" (click)="onCancel()" data-dismiss="modal" style="margin-left: 50px; width: 100px;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p *ngIf="!Items"><em>Loading...</em></p>
+<table class='table' *ngIf="Items">
+    <thead>
+        <tr>
+            <th>Address</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of Items">
+            <td>
+                {{item.address}}
+            </td>
+            <td>
+                {{item.price | number:0}}
+            </td>
+            <td>
+                <a (click)="onEdit(item.id)" style="cursor:pointer;" data-toggle="modal" data-target="#myModal">Edit</a> |
+                <a (click)="setDeleteId(item.id)" style="cursor:pointer;" data-toggle="modal" data-target="#myModalConfirmation">Delete</a> |
+                <a (click)="onEdit(item.id)" style="cursor:pointer;" data-toggle="modal" data-target="#ViewDetailsModal">View Detail</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<!-- Delete Confirmation Modal -->
+<div id="myModalConfirmation" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" style="width:560px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Do you want to delete this record ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="onDelete()" data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- View Details Modal -->
+<div id="ViewDetailsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" style="width:500px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="onCancel()">&times;</button>
+                <h4 class="modal-title">View Details</h4>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>Address</td>
+                        <td>
+                            <textarea [(ngModel)]="Model.address" style="width: 300px; height: 100px; max-height:100px; max-width: 300px;" disabled></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td>
+                            <input type="number" class="form-control" [(ngModel)]="Model.price" disabled />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>File Name</td>
+                        <td><input type="text" class="form-control" [(ngModel)]="Model.fileName" disabled /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <img src={{filePath}} style="width:300px; height:200px;" class="img-thumbnail">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#mySuccessfullyDone" style="display: none;" #SuccessfullyDone></button>
+
+<!-- Modal -->
+<div id="mySuccessfullyDone" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Details</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{DisplayMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

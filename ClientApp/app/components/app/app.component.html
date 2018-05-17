@@ -1,0 +1,16 @@
+<div class='container-fluid'>
+    <div class='row'>
+        <div class='col-sm-3'>
+            <nav-menu *ngIf="showNav">
+            </nav-menu>
+            <adminTemplate-menu *ngIf="showAdminTemplate">
+            </adminTemplate-menu>
+            <memberTemplate-menu *ngIf="showMemberTemplate">
+
+            </memberTemplate-menu>
+        </div>
+        <div class='col-sm-9 body-content'>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<style>
+    .property_container {
+        background: #fff;
+        box-shadow: 0 0 6px #ccc;
+        border: 1px solid #ccc;
+        padding: 15px 0;
+        margin-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    .property_left_img img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .type {
+        margin-top: 0;
+        font-size: 20px;
+    }
+
+    .address {
+    }
+
+    .price {
+        margin-top: 0;
+        font-size: 20px;
+    }
+
+    .emi_dv {
+        color: #4fd80b;
+    }
+
+    .padding_left {
+        padding-left: 0px
+    }
+</style>
+<p *ngIf="!Items"><em>Loading...</em></p>
+
+<table class='table' *ngIf="Items">
+    <tbody>
+        <tr *ngFor="let item of Items">
+            <td>
+                <div class="property_container">
+                    <div class="property_left_img col-md-4">
+                        <img src={{item.imageFile}} />
+                    </div>
+                    <div class="col-md-8 padding_left">
+                        <div class="col-md-12 padding_left">
+                            <div class="col-md-6 padding_left">
+                                <h3 class="type">1 BHK Independent</h3>
+                                <p class="address">{{item.address}}</p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <h3 class="price">{{item.price | number:0}}</h3>
+                                <p class="emi_dv"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
